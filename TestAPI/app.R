@@ -12,7 +12,7 @@
   
   jscode <- '
 window.addEventListener("message", displayMessage, false);
-function displayMessage(evt) { console.log(evt.data); }
+function displayMessage(evt) { console.log(evt.data); Shiny.onInputChange("data", evt.data);}
 $(document).on("shiny:connected", function(event) {
   var objects = [1, 2, 3, 4];  
 Shiny.onInputChange("data", objects);
@@ -29,7 +29,7 @@ Shiny.onInputChange("dim", 2)
     observe({
       dat <- input$data
       # dat <- unlist(lapply(dat,function(x) ifelse(length(x)>0,x,NULL)))
-      print((dat)*2)
+      #print((dat)*2)
       
       
       # print(matrix(as.vector(dat),ncol=2,byrow=T))
