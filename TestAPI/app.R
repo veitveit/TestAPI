@@ -11,6 +11,7 @@
   library(jsonlite)
   
   jscode <- '
+window.addEventListener("message", displayMessage, false);
 $(document).on("shiny:connected", function(event) {
   var objects = [1, 2, 3, 4];  
 Shiny.onInputChange("data", objects);
