@@ -21,7 +21,8 @@ Shiny.onInputChange("dim", 2)
 '
   
   ui <- fluidPage(
-    tags$script(jscode)
+    tags$script(jscode),
+    textOutput("messageTest")    
   )
   
   server <- function(input, output, session) {
@@ -34,7 +35,11 @@ Shiny.onInputChange("dim", 2)
       # print(matrix(as.vector(dat),ncol=2,byrow=T))
       
       # cat(matrix(input$data,ncol=input$dim))
+      output$messageTest <- renderText (print(dat))
     })
+    
+    
+
   }
   
   shinyApp(ui = ui, server = server)
