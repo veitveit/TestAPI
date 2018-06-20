@@ -12,12 +12,12 @@
   
   jscode <- '
 window.addEventListener("message", displayMessage, false);
-function displayMessage(evt) { console.log(evt.data); Shiny.onInputChange("data", evt.data);}
+function displayMessage(evt) { console.log(evt.data); Shiny.onInputChange("data", evt.data);Shiny.onInputChange("num",5);
+}
 $(document).on("shiny:connected", function(event) {
   var objects = [1, 2, 3, 4];  
 Shiny.onInputChange("data", objects);
 Shiny.onInputChange("dim", 2);
-Shiny.onInputChange("num",5);
 });
 '
   
