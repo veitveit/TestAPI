@@ -16,13 +16,15 @@ function displayMessage(evt) { console.log(evt.data); Shiny.onInputChange("data"
 $(document).on("shiny:connected", function(event) {
   var objects = [1, 2, 3, 4];  
 Shiny.onInputChange("data", objects);
-Shiny.onInputChange("dim", 2)
+Shiny.onInputChange("dim", 2);
+Shiny.onInputChange("num",5);
 });
 '
   
   ui <- fluidPage(
     tags$script(jscode),
-    textOutput("messageTest")    
+    textOutput("messageTest"),
+    sliderInput("num","",0,10,2,1)
   )
   
   server <- function(input, output, session) {
@@ -36,6 +38,7 @@ Shiny.onInputChange("dim", 2)
       
       # cat(matrix(input$data,ncol=input$dim))
       output$messageTest <- renderText (print(dat))
+      
     })
     
     
