@@ -12,7 +12,7 @@
   
   jscode <- '
 window.addEventListener("message", displayMessage, false);
-function displayMessage(evt) { console.log(evt.data); Shiny.onInputChange("data", evt.data);Shiny.onInputChange("num",5);
+function displayMessage(evt) { var inmessage = JSON.parse(evt.data);console.log(inmessage); Shiny.onInputChange("data", inmessage);
 }
 $(document).on("shiny:connected", function(event) {
   var objects = [1, 2, 3, 4];  
