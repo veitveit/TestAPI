@@ -16,7 +16,7 @@ function displayMessage(evt) {
 console.log(evt.data)
 var inmessage = JSON.parse(evt.data);
 console.log(inmessage); 
-Shiny.onInputChange("data", inmessage);
+Shiny.onInputChange("data", inmessage.exprmatr);
 }
 $(document).on("shiny:connected", function(event) {
   var objects = [1, 2, 3, 4];  
