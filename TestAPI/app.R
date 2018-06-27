@@ -12,6 +12,9 @@ console.log(evt.data)
 var inmessage = JSON.parse(evt.data);
 console.log(inmessage); 
 Shiny.onInputChange("data", inmessage.exprmatr);
+Shiny.onInputChange("numcond", inmessage.numcond);
+Shiny.onInputChange("numrep", inmessage.numrep);
+
 }
 $(document).on("shiny:connected", function(event) {
   var objects = [1, 2, 3, 4];  
@@ -23,19 +26,32 @@ Shiny.setInputValue("dim", 2);
   ui <- fluidPage(
     tags$script(jscode),
     textOutput("messageTest"),
-    sliderInput("num","",0,10,2,1)
+    sliderInput("num","",0,10,2,1),
+    actionButton("run","Run analysis")
   )
   
   server <- function(input, output, session) {
+    dat <- NULL
     observe({
-      dat <- input$data
-      # dat <- unlist(lapply(dat,function(x) ifelse(length(x)>0,x,NULL)))
+      tdat <- matrix(input$data,byrow = T, ncol=input$numrep*input$numcond+1)
+      print(dim(tdat))
+      dat <- matrix(as.numeric(tdat[,2:ncol(tdat)]),ncol=input$numrep*input$numcond, 
+                    dimnames = list(rows=tdat[,1], cols=paste(paste("C",rep(1:input$numcond, input$numrep),
+                                                                    "R", rep(1:input$numrep, each=input$numcond)))))
+      
+
+            # dat <- unlist(lapply(dat,function(x) ifelse(length(x)>0,x,NULL)))
       #print((dat)*2)
       
       
       # print(matrix(as.vector(dat),ncol=2,byrow=T))
       
       # cat(matrix(input$data,ncol=input$dim))
+      output$messageTest <- renderText (print("read message"))
+      
+    })
+    
+    observeEvent(input$run,{
       output$messageTest <- renderText (print(dat))
       
     })
