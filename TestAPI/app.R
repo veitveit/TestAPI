@@ -1,11 +1,6 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+# This is a shiny app template to test api requests that open the app with preset parameter values
+# TODO: check how to run button
+# TODO: return output files via message?
 
   library(shiny)
   library(jsonlite)
@@ -20,8 +15,8 @@ Shiny.onInputChange("data", inmessage.exprmatr);
 }
 $(document).on("shiny:connected", function(event) {
   var objects = [1, 2, 3, 4];  
-Shiny.onInputChange("data", objects);
-Shiny.onInputChange("dim", 2);
+Shiny.setInputValue("data", objects);
+Shiny.setInputValue("dim", 2);
 });
 '
   
