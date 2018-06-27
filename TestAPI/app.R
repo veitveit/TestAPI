@@ -14,7 +14,6 @@ console.log(inmessage);
 Shiny.setInputValue("data", inmessage.exprmatr);
 Shiny.setInputValue("numcond", inmessage.numcond);
 Shiny.setInputValue("numrep", inmessage.numrep);
-Shiny.setInputValue("run",1);
 }
 $(document).on("shiny:connected", function(event) {
   var objects = ["a",1, 2, 3 ,4,"b", 4,2,1,2,"c", 
@@ -34,6 +33,7 @@ Shiny.setInputValue("numrep", 2);
   
   server <- function(input, output, session) {
     dat <- NULL
+    gotMessage <- 0
     observe({
       print(input$numrep)
       if (!is.null(input$data)) {
@@ -52,11 +52,17 @@ Shiny.setInputValue("numrep", 2);
       
       # cat(matrix(input$data,ncol=input$dim))
       output$messageTest <- renderText (print("read message"))
+      gotMessage <- gotMessage+1
+      # run code of button
+      
       }
       
     })
     
-    observeEvent(input$run,{
+    observeEvent({
+      input$run
+      gotMessage
+      },{
       output$messageTest <- renderText (print(dat))
       
     })
