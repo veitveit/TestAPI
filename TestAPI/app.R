@@ -8,9 +8,10 @@
   jscode <- '
 window.addEventListener("message", displayMessage, false);
 function displayMessage(evt) { 
-console.log(evt.data)
+//console.log(evt.data)
 var inmessage = JSON.parse(evt.data);
-console.log(inmessage); 
+//console.log(inmessage); 
+console.log("read message");
 Shiny.setInputValue("data", inmessage.exprmatr);
 Shiny.setInputValue("numcond", inmessage.numcond);
 Shiny.setInputValue("numrep", inmessage.numrep);
@@ -27,34 +28,28 @@ Shiny.setInputValue("numrep", inmessage.numrep);
     
   ui <- fluidPage(
     tags$script(jscode),
-    textOutput("messageTest"),
+    tableOutput("messageTest"),
     sliderInput("num","",0,10,2,1),
     actionButton("run","Run analysis")
   )
   
   server <- function(input, output, session) {
     dat <- NULL
-    gotMessage <- 0
     observe({
+        
       print(input$numrep)
       if (!is.null(input$data)) {
-      tdat <- matrix(as.vector(input$data),byrow = T, ncol=input$numrep*input$numcond+1)
+          tdat <- matrix(as.vector(input$data),byrow = T, ncol=input$numrep*input$numcond+1)
       print(input$data)
       dat <<- matrix(as.numeric(tdat[,2:ncol(tdat)]),ncol=input$numrep*input$numcond, 
                     dimnames = list(rows=tdat[,1], cols=paste(paste("C",rep(1:input$numcond, input$numrep),
                                                                     " R", rep(1:input$numrep, each=input$numcond),sep=""))))
       
 
-            # dat <- unlist(lapply(dat,function(x) ifelse(length(x)>0,x,NULL)))
       print(dat)
       
-      
-      # print(matrix(as.vector(dat),ncol=2,byrow=T))
-      
-      # cat(matrix(input$data,ncol=input$dim))
-      output$messageTest <- renderText (print("read message"))
-      gotMessage <<- gotMessage+1
-      # run code of button
+      output$messageTest <- renderTable(print("read message"))
+      # TODO run code of button
       
       }
       
@@ -62,7 +57,6 @@ Shiny.setInputValue("numrep", inmessage.numrep);
     
     observeEvent({
       input$run
-      gotMessage
       },{
       output$messageTest <- renderText (print(dat))
       
