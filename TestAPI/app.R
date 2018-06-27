@@ -15,15 +15,16 @@ Shiny.setInputValue("data", inmessage.exprmatr);
 Shiny.setInputValue("numcond", inmessage.numcond);
 Shiny.setInputValue("numrep", inmessage.numrep);
 }
-$(document).on("shiny:connected", function(event) {
-  var objects = ["a",1, 2, 3 ,4,"b", 4,2,1,2,"c", 
-3,3,4,2];  
-Shiny.setInputValue("data", objects);
-Shiny.setInputValue("numcond", 2);
-Shiny.setInputValue("numrep", 2);
-});
 '
+  # $(document).on("shiny:connected", function(event) {
+  #   var objects = ["a",1, 2, 3 ,4,"b", 4,2,1,2,"c", 
+  #                  3,3,4,2];  
+  #   Shiny.setInputValue("data", objects);
+  #   Shiny.setInputValue("numcond", 2);
+  #   Shiny.setInputValue("numrep", 2);
+  # });
   
+    
   ui <- fluidPage(
     tags$script(jscode),
     textOutput("messageTest"),
@@ -52,7 +53,7 @@ Shiny.setInputValue("numrep", 2);
       
       # cat(matrix(input$data,ncol=input$dim))
       output$messageTest <- renderText (print("read message"))
-      gotMessage <- gotMessage+1
+      gotMessage <<- gotMessage+1
       # run code of button
       
       }
