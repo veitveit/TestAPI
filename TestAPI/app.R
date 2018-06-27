@@ -12,6 +12,9 @@ console.log(evt.data)
 var inmessage = JSON.parse(evt.data);
 console.log(inmessage); 
 Shiny.onInputChange("data", inmessage.exprmatr);
+Shiny.onInputChange("numcond", inmessage.numcond);
+Shiny.onInputChange("numrep", inmessage.numrep);
+
 }
 $(document).on("shiny:connected", function(event) {
   var objects = [1, 2, 3, 4];  
@@ -28,9 +31,16 @@ Shiny.setInputValue("dim", 2);
   )
   
   server <- function(input, output, session) {
+    dat <- NULL
     observe({
-      dat <- input$data
-      # dat <- unlist(lapply(dat,function(x) ifelse(length(x)>0,x,NULL)))
+      tdat <- matrix(input$data,byrow = T, ncol=input$numrep*input$numcond+1)
+      print(dim(tdat))
+      dat <- matrix(as.numeric(tdat[,2:ncol(tdat)]),ncol=input$numrep*input$numcond, 
+                    dimnames = list(rows=tdat[,1], cols=paste(paste("C",rep(1:input$numcond, input$numrep),
+                                                                    "R", rep(1:input$numrep, each=input$numcond)))))
+      
+
+            # dat <- unlist(lapply(dat,function(x) ifelse(length(x)>0,x,NULL)))
       #print((dat)*2)
       
       
