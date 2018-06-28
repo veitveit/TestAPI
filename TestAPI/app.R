@@ -58,7 +58,7 @@ Shiny.setInputValue("numrep", inmessage.numrep);
     observeEvent({
       input$run
       },{
-      output$messageTest <- renderTable (dat)
+      output$messageTest <- renderTable (rownames(dat))
       
     })
     
