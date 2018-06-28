@@ -40,13 +40,13 @@ Shiny.setInputValue("numrep", inmessage.numrep);
       print(input$numrep)
       if (!is.null(input$data)) {
           tdat <- matrix(as.vector(input$data),byrow = T, ncol=input$numrep*input$numcond+1)
-      print(input$data)
+      print(head(tdat))
       dat <<- matrix(as.numeric(tdat[,2:ncol(tdat)]),ncol=input$numrep*input$numcond, 
                     dimnames = list(rows=tdat[,1], cols=paste(paste("C",rep(1:input$numcond, input$numrep),
                                                                     " R", rep(1:input$numrep, each=input$numcond),sep=""))))
       
 
-      print(dat)
+      print(rownames(dat))
       
       output$messageTest <- renderTable(print("read message"))
       # TODO run code of button
